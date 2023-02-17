@@ -4,6 +4,7 @@ import useFirebaseAuth from './useFirebaseAuth';
 const authUserContext = createContext({
   authUser: null,
   loading: true,
+  calculateChangedBits: null,
   signInWithEmailAndPassword: async () => {},
   createUserWithEmailAndPassword: async () => {},
   signOut: async () => {}
@@ -14,4 +15,6 @@ export function AuthUserProvider({ children }) {
   return <authUserContext.Provider value={auth}>{children}</authUserContext.Provider>;
 }
 // custom hook to use the authUserContext and access authUser and loading
+console.log(authUserContext)
+// console.log(useContext(authUserContext))
 export const useAuth = () => useContext(authUserContext);

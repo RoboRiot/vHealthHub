@@ -29,8 +29,10 @@ export default function useFirebaseAuth() {
     setLoading(true);
   };
 
-  const signInWithEmailAndPassword = (email, password) =>
+  const signInWithEmailAndPassword = (email, password) =>{
+    console.log(email + "," + password)
     Firebase.auth().signInWithEmailAndPassword(email, password);
+  }
 
   const createUserWithEmailAndPassword = (email, password) =>
     Firebase.auth().createUserWithEmailAndPassword(email, password);

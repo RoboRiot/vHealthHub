@@ -1,10 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Form, Button, Card, Container, Alert } from 'react-bootstrap'
 
-import { useAuth } from '../context/AuthUserContext';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import styles from "../../styles/Home.module.css"
 
-export default class login extends Component {
-  render() {
+import { useAuth } from '../../../context/AuthUserContext';
+// import firebase from "../../../context/Firebase";
+
+import { useRouter } from 'next/router';
+
+
+export default function login() {
   const emailRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
@@ -21,9 +27,12 @@ export default class login extends Component {
     try {
       setError("")
       setLoading(true)
+      // console.log(signInWithEmailAndPassword(emailRef.current.value, passwordRef.current.value))
+
       signInWithEmailAndPassword(emailRef.current.value, passwordRef.current.value)
       .then(authUser => {
-        router.push("/dashboard");
+        console.log("fake success: " + authUser)
+        // router.push("../patient/dashboard");
       })
       .catch(error => {
         setError(error.message)
@@ -35,8 +44,8 @@ export default class login extends Component {
 
     setLoading(false)
   }
-  
-    return (
+
+  return (
         <Container
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}
@@ -60,11 +69,10 @@ export default class login extends Component {
               </Form>
             </Card.Body>
           </Card>
-          <div className="w-100 text-center mt-2">
-            Don't have an account? <Button variant="link" href="/SignUpTest">Sign Up</Button>
+          <div style={{color: "white"}} className="w-100 text-center mt-2">
+            Don't have an account? <Button variant="link" href="http://localhost:3000/auth/signup">Sign Up</Button>
           </div>
         </div>
       </Container>
-    )
-  }
+  );
 }

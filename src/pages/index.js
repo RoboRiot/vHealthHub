@@ -8,9 +8,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import '../styles/custom.scss'
 import { Form, Button, Card, Container } from "react-bootstrap";
 
-import { useAuth } from '../../context/AuthUserContext';
-// const inter = Inter({ subsets: ['latin'] })
-
 function simulateNetworkRequest() {
   return new Promise((resolve) => setTimeout(resolve, 2000));
 }
@@ -43,7 +40,6 @@ function LoadingButton(type, name, route) {
 
 
 export default function Home() {
-  const { signInWithEmailAndPassword } = useAuth();
   return (
     <>
       <Head>

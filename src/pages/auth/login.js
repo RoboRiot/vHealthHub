@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from "../../styles/Home.module.css"
 
 import { useAuth } from '../../../context/AuthUserContext';
-// import firebase from "../../../context/Firebase";
+import firebase from "../../../context/Firebase";
 
 import { useRouter } from 'next/router';
 
@@ -31,8 +31,7 @@ export default function login() {
 
       signInWithEmailAndPassword(emailRef.current.value, passwordRef.current.value)
       .then(authUser => {
-        console.log("fake success: " + authUser)
-        // router.push("../patient/dashboard");
+        router.push("../patient/dashboard");
       })
       .catch(error => {
         setError(error.message)

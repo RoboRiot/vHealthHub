@@ -30,7 +30,6 @@ export default function useFirebaseAuth() {
   };
 
   const signInWithEmailAndPassword = (email, password) =>{
-    console.log(email + "," + password)
     Firebase.auth().signInWithEmailAndPassword(email, password);
   }
 

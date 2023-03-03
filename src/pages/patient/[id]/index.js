@@ -3,14 +3,14 @@ import Modal from "react-bootstrap/Modal";
 import React, { useEffect, useState, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Button, Card, Container, Row, Col } from "react-bootstrap";
-import styles from "../../../../styles/Home.module.css";
+import styles from "../../../styles/Home.module.css";
 
 import { useAuth } from "../../../../context/AuthUserContext";
 import firebase from "../../../../context/Firebase";
 
 // import { useCollection } from "react-firebase-hooks/firebase";
 
-import LoggedIn from "../../../LoggedIn";
+import LoggedIn from "../../../../context/loggedin";
 
 function simulateNetworkRequest() {
   return new Promise((resolve) => setTimeout(resolve, 2000));
@@ -68,7 +68,7 @@ const article = () => {
   const [info, setInfo] = useState([]);
   const [ids, setID] = useState([]);
   const [idSelect, setIDSelect] = useState([]);
-  const selectedID = 0;
+  // const selectedID = 0;
 
   //
   //
@@ -171,6 +171,12 @@ const article = () => {
   // Start the fetch operation as soon as
   // the page loads
   if (typeof window !== "undefined") {
+    // console.log(window)
+    useEffect(() => {
+      // Client-side-only code
+      console.log("enter 2");
+      fetchData();
+    }, [window]);
     window.addEventListener("load", () => {
       console.log("enter 1");
       fetchData();
@@ -178,17 +184,20 @@ const article = () => {
     });
   }
 
+  var selectedID = 0;
+
   async function fetchStuff() {
     let data = 0;
     let id = 0;
-
+    console.log("fetch stuff");
     const cityRef = await db
-      .collection("Test")
+      .collection("test")
       .get()
       .then((querySnapshot) => {
         // Loop through the data and store
         // it in array to display
         querySnapshot.forEach((element) => {
+          console.log(element.data());
           if (element.id == selectedID) {
             data = element.data();
             id = element.id;
@@ -214,19 +223,19 @@ const article = () => {
 
     let data = datas[0];
 
-    let itemValue = [];
-    let dateStorage = [];
-    let mSpace = "-";
-    if (toDateTime(data.date.seconds).getMonth() + 1 < 10) mSpace = "-0";
+    // let itemValue = [];
+    // let dateStorage = [];
+    // let mSpace = "-";
+    // if (toDateTime(data.date.seconds).getMonth() + 1 < 10) mSpace = "-0";
 
-    data.date =
-      toDateTime(data.date.seconds).getFullYear() +
-      mSpace +
-      (toDateTime(data.date.seconds).getMonth() + 1) +
-      "-" +
-      toDateTime(data.date.seconds).getDate();
+    // data.date =
+    //   toDateTime(data.date.seconds).getFullYear() +
+    //   mSpace +
+    //   (toDateTime(data.date.seconds).getMonth() + 1) +
+    //   "-" +
+    //   toDateTime(data.date.seconds).getDate();
 
-    console.log(data.date);
+    console.log(data.prescription);
 
     setIDSelect(selectedID);
     setItems(data);
@@ -257,52 +266,86 @@ const article = () => {
               <Form onSubmit={handleSubmit}>
                 <Row className="mb-3">
                   <Form.Group as={Col} controlId="name">
-                    <Form.Label>Name</Form.Label>
+                    <Form.Label>First Name</Form.Label>
                     <Form.Control
                       type="text"
-                      value={items["name"]}
+                      value={items["first"]}
                       onChange={nameChangeHandler}
                     />
                   </Form.Group>
 
-                  <Form.Group as={Col} controlId="wo">
-                    <Form.Label>Work Order</Form.Label>
+                  <Form.Group as={Col} controlId="name">
+                    <Form.Label>Last Name</Form.Label>
                     <Form.Control
-                      type="number"
-                      value={items["wo"]}
-                      onChange={woChangeHandler}
+                      type="text"
+                      value={items["last"]}
+                      onChange={nameChangeHandler}
                     />
                   </Form.Group>
                 </Row>
 
                 <Row className="mb-3">
-                  <Form.Group as={Col} controlId="pn">
-                    <Form.Label>Product Number</Form.Label>
+                  <Form.Group as={Col} controlId="name">
+                    <Form.Label>Street</Form.Label>
                     <Form.Control
-                      type="number"
-                      value={items["pn"]}
-                      onChange={pnChangeHandler}
+                      type="text"
+                      value={items["street"]}
+                      onChange={nameChangeHandler}
                     />
                   </Form.Group>
 
-                  <Form.Group as={Col} controlId="sn">
-                    <Form.Label>Serial Number</Form.Label>
+                  <Form.Group as={Col} controlId="name">
+                    <Form.Label>City</Form.Label>
                     <Form.Control
-                      type="number"
-                      value={items["sn"]}
-                      onChange={snChangeHandler}
+                      type="text"
+                      value={items["city"]}
+                      onChange={nameChangeHandler}
                     />
                   </Form.Group>
                 </Row>
 
-                <Form.Group as={Col} controlId="date">
-                  <Form.Label>Date</Form.Label>
-                  <Form.Control
-                    type="date"
-                    value={items["date"]}
-                    onChange={dateChangeHandler}
-                  />
-                </Form.Group>
+                <Row className="mb-3">
+                  <Form.Group as={Col} controlId="name">
+                    <Form.Label>State</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={items["state"]}
+                      onChange={nameChangeHandler}
+                    />
+                  </Form.Group>
+
+                  <Form.Group as={Col} controlId="name">
+                    <Form.Label>Zipcode</Form.Label>
+                    <Form.Control
+                      type="number"
+                      value={items["zipcode"]}
+                      onChange={nameChangeHandler}
+                    />
+                  </Form.Group>
+                </Row>
+
+                <Row className="mb-3">
+                  <Form.Group as={Col} controlId="prescription">
+                    <Form.Label>Prescriptions</Form.Label>
+                    <Form.Select aria-label="Default select example">
+                      {items["prescription"] != undefined &&
+                        items["prescription"].map((element, index) => (
+                          <option value={index}>{element}</option>
+                        ))}
+                    </Form.Select>
+                  </Form.Group>
+
+                  <Form.Group as={Col} controlId="allergies">
+                    <Form.Label>Allergies</Form.Label>
+                    <Form.Select aria-label="Default select example">
+                      {items["allergies"] != undefined &&
+                        items["allergies"].map((element, index) => (
+                          <option value={index}>{element}</option>
+                        ))}
+                    </Form.Select>
+                  </Form.Group>
+                </Row>
+
                 <Form.Label></Form.Label>
                 <Form.Group className="mb-3" controlId="desc">
                   <Form.Label>Description</Form.Label>

@@ -33,7 +33,14 @@ export default function login() {
         passwordRef.current.value
       )
         .then((authUser) => {
-          router.push("../patient/" + fetchStuff(emailRef.current.value));
+          const wait=ms=>new Promise(resolve => setTimeout(resolve, ms));
+
+          fetchStuff(emailRef.current.value).then((currentID) => {
+            console.log(currentID)
+            router.push("../patient/" + currentID);
+          })
+          // wait(1000).then(() => console.log(currentID));                    
+          // router.push("../patient/" + fetchStuff(emailRef.current.value));
         })
         .catch((error) => {
           setError(error.message);
@@ -59,16 +66,18 @@ export default function login() {
   async function fetchStuff(email) {
     let data = 0;
     let id = 0;
-
+    console.log(email)
     const cityRef = await db
-      .collection("Test")
+      .collection("test")
       .get()
       .then((querySnapshot) => {
         // Loop through the data and store
         // it in array to display
         querySnapshot.forEach((element) => {
+          console.log(element.data())
           if (element.data().email == email) {
             // data = element.data();
+            console.log(element.id)
             id = element.id;
           }
         });

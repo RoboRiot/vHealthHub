@@ -7,10 +7,10 @@ import { useAuth } from './AuthUserContext';
 const LoggedIn = ({ children }) => {
   const { authUser, loading} = useAuth();
   const router = useRouter();
-
+  // console.log(loading + "," + authUser)
   // Listen for changes on loading and authUser, redirect if needed
   useEffect(() => {
-    
+    console.log("enter logged 2")
     if (!loading && !authUser)
       router.push('/')
   }, [authUser, loading])

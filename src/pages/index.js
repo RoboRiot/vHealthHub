@@ -73,7 +73,7 @@ export default function Home() {
               <div class="d-grid gap-3">
                 {LoadingButton("primary", "I'm a patient", "auth/login")}
 
-                {LoadingButton("secondary", "Doctor login", "logs")}
+                {LoadingButton("secondary", "Doctor login", "auth/aLogin")}
 
               </div>
             </Card.Body>

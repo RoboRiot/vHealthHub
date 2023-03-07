@@ -146,6 +146,28 @@ const article = ({ list }) => {
     setItems(Object.assign({}, items, { notes: event.target.value }));
   };
 
+  const [addItem, setAddItem] = useState();
+
+  const handleAddClose = () => setShow(false);
+  const handleAddShow = () => setShow(true);
+
+  const [showAdd, setShowAdd] = useState(false);
+  const [newItem, setNewItem] = useState()
+
+  const addItemHandler = (event) => {
+    setNewItem(event.target.value)
+  }
+
+  const handleAdd = () => {
+    // setItems(Object.assign({}, items, { addItem : newItem }));
+    items[addItem].push(newItem)
+  }
+
+  const addItemPopUp = (item) => {
+    setAddItem(item)
+    handleAddShow()
+  }
+
   return (
     <LoggedIn>
       <Modal show={show} onHide={handleClose}>
@@ -159,6 +181,23 @@ const article = ({ list }) => {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Modal show={showAdd} onHide={handleAddClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Adding {addItem}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Label>{addItem}</Form.Label>
+          <Form.Control type="text" value={newItem} onChange={addItemHandler} />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleAdd}>
+            Ok
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Container
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}
@@ -169,7 +208,7 @@ const article = ({ list }) => {
               <h2 className="text-center mb-4">Item</h2>
 
               <Form onSubmit={handleSubmit}>
-              <Row className="mb-3">
+                <Row className="mb-3">
                   <Form.Group as={Col} controlId="name">
                     <Form.Label>First Name</Form.Label>
                     <Form.Control
@@ -240,7 +279,16 @@ const article = ({ list }) => {
                     </Form.Select>
                   </Form.Group>
 
-                  <Form.Group as={Col} controlId="allergies">
+                  <Form.Group className="mb-4" as={Col} controlId="prescriptionsAdd" >
+                    <Button
+                      variant="secondary"
+                      onClick={() => addItemPopUp("prescription")}
+                    >
+                      +
+                    </Button>
+                  </Form.Group>
+
+                  <Form.Group as={Col} className="w-10" controlId="allergies">
                     <Form.Label>Allergies</Form.Label>
                     <Form.Select aria-label="Default select example">
                       {items["allergies"] != undefined &&
@@ -249,21 +297,32 @@ const article = ({ list }) => {
                         ))}
                     </Form.Select>
                   </Form.Group>
+
+                  <Form.Group style={{backgroundColor:"blue"}}  as={Col} controlId="allergiesAdd" >
+                    <Button style={{marginLeft:"1.5vw",marginTop:"2.15vw"}}
+                      variant="secondary"
+                      onClick={() => addItemPopUp("allergies")}
+                    >
+                      +
+                    </Button>
+                  </Form.Group>
+
                 </Row>
 
                 <Form.Label>Symptoms</Form.Label>
-                    <Form.Select aria-label="Default select example">
-                      {items["symptoms"] != undefined &&
-                        items["symptoms"].map((element, index) => (
-                          <option value={index}>{element}</option>
-                        ))}
-                  </Form.Select>
+                <Form.Select aria-label="Default select example">
+                  {items["symptoms"] != undefined &&
+                    items["symptoms"].map((element, index) => (
+                      <option value={index}>{element}</option>
+                    ))}
+                </Form.Select>
 
                 <Form.Label></Form.Label>
                 <Form.Group className="mb-3" controlId="desc">
                   <Form.Label>Notes</Form.Label>
                   <Form.Control
-                    as="textarea" rows={3} 
+                    as="textarea"
+                    rows={3}
                     value={items["notes"]}
                     onChange={notesChangeHandler}
                   />

@@ -51,17 +51,17 @@ const article = ({ list }) => {
   const handleShow = () => setShow(true);
 
   const { signOut } = useAuth();
-
-  const [items, setItems] = useState({
-    jasper: {
-      name: "",
-      wo: "",
-      pn: "",
-      sn: "",
-      date: "",
-      desc: "",
-    },
-  });
+  const [items, setItems] = useState({})
+  // const [items, setItems] = useState({
+  //   jasper: {
+  //     name: "",
+  //     wo: "",
+  //     pn: "",
+  //     sn: "",
+  //     date: "",
+  //     desc: "",
+  //   },
+  // });
 
   const db = firebase.firestore();
 
@@ -148,11 +148,13 @@ const article = ({ list }) => {
 
   const [addItem, setAddItem] = useState();
 
-  const handleAddClose = () => setShow(false);
-  const handleAddShow = () => setShow(true);
+  const handleAddClose = () => setShowAdd(false);
+  const handleAddShow = () => setShowAdd(true);
 
   const [showAdd, setShowAdd] = useState(false);
   const [newItem, setNewItem] = useState()
+
+  const [preSelect, setPreSelect] = useState();
 
   const addItemHandler = (event) => {
     setNewItem(event.target.value)
@@ -160,12 +162,36 @@ const article = ({ list }) => {
 
   const handleAdd = () => {
     // setItems(Object.assign({}, items, { addItem : newItem }));
-    items[addItem].push(newItem)
+    // console.log(addItem)
+    // console.log(items[addItem])
+    // console.log(items["prescription"])
+    if(items[addItem] == undefined){
+      setItems(Object.assign({}, items, { [addItem] : [newItem] }));
+      console.log(items["prescription"])
+    }
+    else{
+      var tempList = items[addItem]
+      tempList.push(newItem)
+      setItems(Object.assign({}, items, { [addItem] : tempList }));
+    }
+    // items[addItem].push(newItem)
+    setNewItem()
+    handleAddClose()
   }
 
   const addItemPopUp = (item) => {
     setAddItem(item)
     handleAddShow()
+  }
+
+  const removeItem = () => {
+    setItems((products) => products.filter((_, index) => index !== 0));
+
+  }
+
+  const preSelectHandler = (event) => {
+    console.log(event.target.value)
+    setPreSelect(event.target.value)
   }
 
   return (
@@ -268,10 +294,10 @@ const article = ({ list }) => {
                   </Form.Group>
                 </Row>
 
-                <Row className="mb-3">
+                <Row className="mb-1">
                   <Form.Group as={Col} controlId="prescription">
                     <Form.Label>Prescriptions</Form.Label>
-                    <Form.Select aria-label="Default select example">
+                    <Form.Select aria-label="Default select example" onChange={preSelectHandler}>
                       {items["prescription"] != undefined &&
                         items["prescription"].map((element, index) => (
                           <option value={index}>{element}</option>
@@ -279,14 +305,30 @@ const article = ({ list }) => {
                     </Form.Select>
                   </Form.Group>
 
-                  <Form.Group className="mb-4" as={Col} controlId="prescriptionsAdd" >
+                  <Form.Group
+                    className="mb-1"
+                    as={Col}
+                    controlId="prescriptionsAdd"
+                  >
                     <Button
-                      variant="secondary"
+                      style={{ marginTop: "2.15vw" }}
+                      variant="success"
                       onClick={() => addItemPopUp("prescription")}
                     >
                       +
                     </Button>
+                    <Button
+                      style={{marginLeft: "1vw",  marginTop: "2.15vw" }}
+                      variant="danger"
+                      onClick={() => addItemPopUp("prescription")}
+                    >
+                      --
+                    </Button>
                   </Form.Group>
+
+                </Row>
+
+                <Row className="mb-3">
 
                   <Form.Group as={Col} className="w-10" controlId="allergies">
                     <Form.Label>Allergies</Form.Label>
@@ -298,24 +340,55 @@ const article = ({ list }) => {
                     </Form.Select>
                   </Form.Group>
 
-                  <Form.Group style={{backgroundColor:"blue"}}  as={Col} controlId="allergiesAdd" >
-                    <Button style={{marginLeft:"1.5vw",marginTop:"2.15vw"}}
+                  <Form.Group
+                    as={Col}
+                    controlId="allergiesAdd"
+                  >
+                    <Button
+                      style={{ marginTop: "2.15vw" }}
                       variant="secondary"
                       onClick={() => addItemPopUp("allergies")}
                     >
                       +
                     </Button>
+                    <Button
+                      style={{marginLeft: "1vw",  marginTop: "2.15vw" }}
+                      variant="danger"
+                      onClick={() => addItemPopUp("prescription")}
+                    >
+                      --
+                    </Button>
                   </Form.Group>
-
                 </Row>
 
-                <Form.Label>Symptoms</Form.Label>
-                <Form.Select aria-label="Default select example">
-                  {items["symptoms"] != undefined &&
-                    items["symptoms"].map((element, index) => (
-                      <option value={index}>{element}</option>
-                    ))}
-                </Form.Select>
+                <Row className="mb-1">
+                  <Form.Group as={Col} className="w-10" controlId="symptoms">
+                    <Form.Label>Symptoms</Form.Label>
+                    <Form.Select aria-label="Default select example">
+                      {items["symptoms"] != undefined &&
+                        items["symptoms"].map((element, index) => (
+                          <option value={index}>{element}</option>
+                        ))}
+                    </Form.Select>
+                  </Form.Group>
+
+                  <Form.Group className="mb-1" as={Col} controlId="symptomsAdd">
+                    <Button
+                      style={{ marginTop: "2.15vw" }}
+                      variant="secondary"
+                      onClick={() => addItemPopUp("symptoms")}
+                    >
+                      +
+                    </Button>
+                    <Button
+                      style={{marginLeft: "1vw",  marginTop: "2.15vw" }}
+                      variant="danger"
+                      onClick={() => removeItem("prescription")}
+                    >
+                      --
+                    </Button>
+                  </Form.Group>
+                </Row>
 
                 <Form.Label></Form.Label>
                 <Form.Group className="mb-3" controlId="desc">

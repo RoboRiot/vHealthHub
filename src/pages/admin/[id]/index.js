@@ -359,7 +359,7 @@ const article = () => {
                 <Button
                   className="m-3"
                   variant="secondary"
-                  href={"../WarehouseList"}
+                  href={"/patient/dashboard"}
                 >
                   Go Back
                 </Button>

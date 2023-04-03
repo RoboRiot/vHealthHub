@@ -179,13 +179,21 @@ const article = ({ list }) => {
     handleAddClose()
   }
 
+  
+
   const addItemPopUp = (item) => {
     setAddItem(item)
     handleAddShow()
   }
 
-  const removeItem = () => {
-    var tempArr = items[]
+  const removeItem = (name) => {
+    // console.log(preSelect)
+    if (items[name].length > 0) {
+      var tempList = items[name]
+      tempList.splice(preSelect, 1)
+      // console.log(tempList)
+      setItems(Object.assign({}, items, { [name]: tempList }));
+    }
   }
 
   const preSelectHandler = (event) => {
@@ -218,7 +226,7 @@ const article = ({ list }) => {
           <Button variant="primary" onClick={handleAdd}>
             Ok
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleAddClose}>
             Cancel
           </Button>
         </Modal.Footer>
@@ -319,7 +327,7 @@ const article = ({ list }) => {
                     <Button
                       style={{marginLeft: "1vw",  marginTop: "2.15vw" }}
                       variant="danger"
-                      onClick={() => addItemPopUp("prescription")}
+                      onClick={() => removeItem("prescription")}
                     >
                       --
                     </Button>
@@ -345,7 +353,7 @@ const article = ({ list }) => {
                   >
                     <Button
                       style={{ marginTop: "2.15vw" }}
-                      variant="secondary"
+                      variant="success"
                       onClick={() => addItemPopUp("allergies")}
                     >
                       +
@@ -353,7 +361,7 @@ const article = ({ list }) => {
                     <Button
                       style={{marginLeft: "1vw",  marginTop: "2.15vw" }}
                       variant="danger"
-                      onClick={() => addItemPopUp("prescription")}
+                      onClick={() => removeItem("allergies")}
                     >
                       --
                     </Button>
@@ -374,7 +382,7 @@ const article = ({ list }) => {
                   <Form.Group className="mb-1" as={Col} controlId="symptomsAdd">
                     <Button
                       style={{ marginTop: "2.15vw" }}
-                      variant="secondary"
+                      variant="success"
                       onClick={() => addItemPopUp("symptoms")}
                     >
                       +
@@ -382,7 +390,7 @@ const article = ({ list }) => {
                     <Button
                       style={{marginLeft: "1vw",  marginTop: "2.15vw" }}
                       variant="danger"
-                      onClick={() => removeItem("prescription")}
+                      onClick={() => removeItem("symptoms")}
                     >
                       --
                     </Button>

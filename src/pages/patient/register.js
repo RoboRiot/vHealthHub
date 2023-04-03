@@ -185,8 +185,7 @@ const article = ({ list }) => {
   }
 
   const removeItem = () => {
-    setItems((products) => products.filter((_, index) => index !== 0));
-
+    var tempArr = items[]
   }
 
   const preSelectHandler = (event) => {

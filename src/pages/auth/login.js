@@ -33,13 +33,14 @@ export default function login() {
         passwordRef.current.value
       )
         .then((authUser) => {
-          const wait=ms=>new Promise(resolve => setTimeout(resolve, ms));
+          const wait = (ms) =>
+            new Promise((resolve) => setTimeout(resolve, ms));
 
           fetchStuff(emailRef.current.value).then((currentID) => {
-            console.log(currentID)
+            console.log(currentID);
             router.push("../patient/" + currentID);
-          })
-          // wait(1000).then(() => console.log(currentID));                    
+          });
+          // wait(1000).then(() => console.log(currentID));
           // router.push("../patient/" + fetchStuff(emailRef.current.value));
         })
         .catch((error) => {
@@ -66,7 +67,7 @@ export default function login() {
   async function fetchStuff(email) {
     let data = 0;
     let id = 0;
-    console.log(email)
+    console.log(email);
     const cityRef = await db
       .collection("test")
       .get()
@@ -74,16 +75,31 @@ export default function login() {
         // Loop through the data and store
         // it in array to display
         querySnapshot.forEach((element) => {
-          console.log(element.data())
+          console.log(element.data());
           if (element.data().email == email) {
             // data = element.data();
-            console.log(element.id)
+            console.log(element.id);
             id = element.id;
           }
         });
       });
 
     return id;
+  }
+
+  //sets email from previous page
+
+  const [email, setEmail] = useState();
+
+  if (typeof window !== "undefined") {
+    useEffect(() => {
+      // Client-side-only code
+
+      if (router.query.email == undefined) {
+        router.push("/");
+      }
+      setEmail(router.query.email);
+    }, []);
   }
 
   // function toDateTime(secs) {
@@ -132,7 +148,13 @@ export default function login() {
             <Form onSubmit={handleSubmit}>
               <Form.Group id="email">
                 <Form.Label>Email</Form.Label>
-                <Form.Control type="email" ref={emailRef} required />
+                <Form.Control
+                  disabled={true}
+                  type="email"
+                  value={email}
+                  ref={emailRef}
+                  required
+                />
               </Form.Group>
               <Form.Group id="password">
                 <Form.Label>Password</Form.Label>
@@ -145,12 +167,6 @@ export default function login() {
             </Form>
           </Card.Body>
         </Card>
-        <div style={{ color: "black" }} className="w-100 text-center mt-2">
-          Don't have an account?{" "}
-          <Button variant="link" href="http://localhost:3000/auth/signup">
-            Sign Up
-          </Button>
-        </div>
       </div>
     </Container>
   );

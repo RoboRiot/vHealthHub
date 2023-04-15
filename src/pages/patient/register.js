@@ -42,7 +42,7 @@ function LoadingButton(type, name, route) {
   );
 }
 
-const article = ({ list }) => {
+const register = ({ list }) => {
   const router = useRouter();
   const { id } = router.query;
   const [show, setShow] = useState(false);
@@ -51,7 +51,7 @@ const article = ({ list }) => {
   const handleShow = () => setShow(true);
 
   const { signOut } = useAuth();
-  const [items, setItems] = useState({})
+  const [items, setItems] = useState({});
   // const [items, setItems] = useState({
   //   jasper: {
   //     name: "",
@@ -92,7 +92,7 @@ const article = ({ list }) => {
         console.log("Items added!");
         // router.reload("WarehouseList")
         // window.location = "WarehouseList";
-        router.push("dashboard")
+        router.push("dashboard");
       });
   }
 
@@ -104,12 +104,12 @@ const article = ({ list }) => {
     var check = false;
 
     Object.values(items).map((element) => {
-      console.log(element)
+      console.log(element);
       if (element == "") {
-        console.log(element + " error!")
+        console.log(element + " error!");
         check = true;
       }
-    })
+    });
 
     if (check) {
       console.log("entered");
@@ -122,7 +122,7 @@ const article = ({ list }) => {
 
     event.preventDefault();
   }
-  
+
   const firstChangeHandler = (event) => {
     setItems(Object.assign({}, items, { first: event.target.value }));
   };
@@ -142,6 +142,9 @@ const article = ({ list }) => {
   const zipcodeChangeHandler = (event) => {
     setItems(Object.assign({}, items, { zipcode: event.target.value }));
   };
+  const emailChangeHandler = (event) => {
+    setItems(Object.assign({}, items, { email: event.target.value }));
+  };
   const notesChangeHandler = (event) => {
     setItems(Object.assign({}, items, { notes: event.target.value }));
   };
@@ -152,54 +155,50 @@ const article = ({ list }) => {
   const handleAddShow = () => setShowAdd(true);
 
   const [showAdd, setShowAdd] = useState(false);
-  const [newItem, setNewItem] = useState()
+  const [newItem, setNewItem] = useState();
 
   const [preSelect, setPreSelect] = useState();
 
   const addItemHandler = (event) => {
-    setNewItem(event.target.value)
-  }
+    setNewItem(event.target.value);
+  };
 
   const handleAdd = () => {
     // setItems(Object.assign({}, items, { addItem : newItem }));
     // console.log(addItem)
     // console.log(items[addItem])
     // console.log(items["prescription"])
-    if(items[addItem] == undefined){
-      setItems(Object.assign({}, items, { [addItem] : [newItem] }));
-      console.log(items["prescription"])
-    }
-    else{
-      var tempList = items[addItem]
-      tempList.push(newItem)
-      setItems(Object.assign({}, items, { [addItem] : tempList }));
+    if (items[addItem] == undefined) {
+      setItems(Object.assign({}, items, { [addItem]: [newItem] }));
+    } else {
+      var tempList = items[addItem];
+      tempList.push(newItem);
+      setItems(Object.assign({}, items, { [addItem]: tempList }));
     }
     // items[addItem].push(newItem)
-    setNewItem()
-    handleAddClose()
-  }
-
-  
+    setNewItem();
+    handleAddClose();
+  };
 
   const addItemPopUp = (item) => {
-    setAddItem(item)
-    handleAddShow()
-  }
+    setAddItem(item);
+    handleAddShow();
+  };
 
   const removeItem = (name) => {
     // console.log(preSelect)
     if (items[name].length > 0) {
-      var tempList = items[name]
-      tempList.splice(preSelect, 1)
+      var tempList = items[name];
+      tempList.splice(preSelect, 1);
       // console.log(tempList)
       setItems(Object.assign({}, items, { [name]: tempList }));
     }
-  }
+  };
 
   const preSelectHandler = (event) => {
-    console.log(event.target.value)
-    setPreSelect(event.target.value)
-  }
+    console.log(event.target.value);
+    setPreSelect(event.target.value);
+  };
 
   return (
     <LoggedIn>
@@ -238,8 +237,6 @@ const article = ({ list }) => {
         <div className="w-100" style={{ maxWidth: "400px" }}>
           <Card className="align-items-center justify-content-center">
             <Card.Body>
-              <h2 className="text-center mb-4">Item</h2>
-
               <Form onSubmit={handleSubmit}>
                 <Row className="mb-3">
                   <Form.Group as={Col} controlId="name">
@@ -304,7 +301,10 @@ const article = ({ list }) => {
                 <Row className="mb-1">
                   <Form.Group as={Col} controlId="prescription">
                     <Form.Label>Prescriptions</Form.Label>
-                    <Form.Select aria-label="Default select example" onChange={preSelectHandler}>
+                    <Form.Select
+                      aria-label="Default select example"
+                      onChange={preSelectHandler}
+                    >
                       {items["prescription"] != undefined &&
                         items["prescription"].map((element, index) => (
                           <option value={index}>{element}</option>
@@ -325,18 +325,16 @@ const article = ({ list }) => {
                       +
                     </Button>
                     <Button
-                      style={{marginLeft: "1vw",  marginTop: "2.15vw" }}
+                      style={{ marginLeft: "1vw", marginTop: "2.15vw" }}
                       variant="danger"
                       onClick={() => removeItem("prescription")}
                     >
                       --
                     </Button>
                   </Form.Group>
-
                 </Row>
 
                 <Row className="mb-3">
-
                   <Form.Group as={Col} className="w-10" controlId="allergies">
                     <Form.Label>Allergies</Form.Label>
                     <Form.Select aria-label="Default select example">
@@ -347,10 +345,7 @@ const article = ({ list }) => {
                     </Form.Select>
                   </Form.Group>
 
-                  <Form.Group
-                    as={Col}
-                    controlId="allergiesAdd"
-                  >
+                  <Form.Group as={Col} controlId="allergiesAdd">
                     <Button
                       style={{ marginTop: "2.15vw" }}
                       variant="success"
@@ -359,7 +354,7 @@ const article = ({ list }) => {
                       +
                     </Button>
                     <Button
-                      style={{marginLeft: "1vw",  marginTop: "2.15vw" }}
+                      style={{ marginLeft: "1vw", marginTop: "2.15vw" }}
                       variant="danger"
                       onClick={() => removeItem("allergies")}
                     >
@@ -388,12 +383,23 @@ const article = ({ list }) => {
                       +
                     </Button>
                     <Button
-                      style={{marginLeft: "1vw",  marginTop: "2.15vw" }}
+                      style={{ marginLeft: "1vw", marginTop: "2.15vw" }}
                       variant="danger"
                       onClick={() => removeItem("symptoms")}
                     >
                       --
                     </Button>
+                  </Form.Group>
+                </Row>
+
+                <Row className="mb-3">
+                  <Form.Group as={Col} controlId="name">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={items["email"]}
+                      onChange={emailChangeHandler}
+                    />
                   </Form.Group>
                 </Row>
 
@@ -411,11 +417,7 @@ const article = ({ list }) => {
                 <Button variant="primary" type="submit">
                   Register
                 </Button>
-                <Button
-                  className="m-3"
-                  variant="secondary"
-                  href={"../WarehouseList"}
-                >
+                <Button className="m-3" variant="secondary" href={"dashboard"}>
                   Go Back
                 </Button>
               </Form>
@@ -427,4 +429,4 @@ const article = ({ list }) => {
   );
 };
 
-export default article;
+export default register;

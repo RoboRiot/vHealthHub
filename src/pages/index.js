@@ -1,7 +1,7 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import { Inter } from "@next/font/google";
+import styles from "@/styles/Home.module.css";
 
 import React, { useEffect, useState, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -38,7 +38,6 @@ function LoadingButton(type, name, route) {
   );
 }
 
-
 export default function Home() {
   return (
     <>
@@ -52,7 +51,6 @@ export default function Home() {
         <link width={100} height={100} rel="icon" href="/vHealth-1-logo.png" />
       </Head>
 
-      
       <Container
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}
@@ -71,10 +69,9 @@ export default function Home() {
               />
 
               <div class="d-grid gap-3">
-                {LoadingButton("primary", "I'm a patient", "auth/login")}
+                {LoadingButton("primary", "I'm a patient", "auth/checkemail")}
 
                 {LoadingButton("secondary", "Doctor login", "auth/aLogin")}
-
               </div>
             </Card.Body>
           </Card>

@@ -52,16 +52,17 @@ const article = () => {
 
   const { signOut } = useAuth();
 
-  const [items, setItems] = useState({
-    jasper: {
-      name: "",
-      wo: "",
-      pn: "",
-      sn: "",
-      date: "",
-      desc: "",
-    },
-  });
+  // const [items, setItems] = useState({
+  //   jasper: {
+  //     name: "",
+  //     wo: "",
+  //     pn: "",
+  //     sn: "",
+  //     date: "",
+  //     desc: "",
+  //   },
+  // });
+  const [items, setItems] = useState({});
 
   const db = firebase.firestore();
 
@@ -106,12 +107,12 @@ const article = () => {
     var check = false;
 
     Object.values(items).map((element) => {
-      console.log(element)
+      console.log(element);
       if (element == "") {
-        console.log(element + " error!")
+        console.log(element + " error!");
         check = true;
       }
-    })
+    });
 
     if (check) {
       console.log("entered");
@@ -124,7 +125,7 @@ const article = () => {
 
     event.preventDefault();
   }
-  
+
   const firstChangeHandler = (event) => {
     setItems(Object.assign({}, items, { first: event.target.value }));
   };
@@ -176,7 +177,7 @@ const article = () => {
   async function fetchStuff() {
     let data = 0;
     let id = 0;
-    
+
     const cityRef = await db
       .collection("test")
       .get()
@@ -206,7 +207,7 @@ const article = () => {
       window.location.pathname.lastIndexOf("/") + 1
     );
 
-    setIDSelect(selectedID)
+    setIDSelect(selectedID);
 
     let datas = await fetchStuff();
 
@@ -336,18 +337,19 @@ const article = () => {
                 </Row>
 
                 <Form.Label>Symptoms</Form.Label>
-                    <Form.Select aria-label="Default select example">
-                      {items["symptoms"] != undefined &&
-                        items["symptoms"].map((element, index) => (
-                          <option value={index}>{element}</option>
-                        ))}
-                  </Form.Select>
+                <Form.Select aria-label="Default select example">
+                  {items["symptoms"] != undefined &&
+                    items["symptoms"].map((element, index) => (
+                      <option value={index}>{element}</option>
+                    ))}
+                </Form.Select>
 
                 <Form.Label></Form.Label>
                 <Form.Group className="mb-3" controlId="desc">
                   <Form.Label>Notes</Form.Label>
                   <Form.Control
-                    as="textarea" rows={3} 
+                    as="textarea"
+                    rows={3}
                     value={items["notes"]}
                     onChange={notesChangeHandler}
                   />
@@ -361,11 +363,16 @@ const article = () => {
                   variant="secondary"
                   href={"../register"}
                 >
-                  Go Back
+                  Send a Message
                 </Button>
               </Form>
             </Card.Body>
           </Card>
+          <div style={{ color: "black" }} className="w-100 text-center mt-2">
+            <Button variant="link" href="http://localhost:3000/">
+              Sign Out
+            </Button>
+          </div>
         </div>
       </Container>
     </LoggedIn>

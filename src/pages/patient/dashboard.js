@@ -42,8 +42,6 @@ function LoadingButton(type, name, route) {
   );
 }
 
-
-
 export default function dashboard() {
   const { signOut } = useAuth([]);
   const [info, setInfo] = useState([]);
@@ -55,7 +53,7 @@ export default function dashboard() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [dItem, setDItem] = useState()
+  const [dItem, setDItem] = useState();
 
   // Start the fetch operation as soon as
   // the page loads
@@ -86,7 +84,7 @@ export default function dashboard() {
         querySnapshot.forEach((element) => {
           console.log("enter 2");
           console.log(element.id);
-          console.log(element.data())
+          console.log(element.data());
           id.push(element.id);
           data.push(element.data());
         });
@@ -106,7 +104,7 @@ export default function dashboard() {
   }
 
   async function fetchData() {
-    console.log("we here")
+    console.log("we here");
     let datas = await fetchStuff();
     let data = datas[0];
 
@@ -130,32 +128,31 @@ export default function dashboard() {
     // console.log(data)
     // console.log(data);
     // setInfo((oldArray) => [...oldArray, ...data]);
-    setInfo(data)
-    setID(datas[1])
+    setInfo(data);
+    setID(datas[1]);
     // setID((oldArray) => [...oldArray, ...datas[1]]);
-
   }
 
   const rowSelect = (id) => {
     console.log(id);
     window.location = "../admin/" + id;
   };
-  const [gPos, setGPos] = useState()
-  let [gIde, setGIde] = useState()
+  const [gPos, setGPos] = useState();
+  let [gIde, setGIde] = useState();
 
   const checkDelete = (pos, ide, name) => {
-    setDItem(name)
-    setGPos(pos)
-    setGIde(ide)
-    console.log(gPos + "," + gIde)
-    handleShow()
-  }
+    setDItem(name);
+    setGPos(pos);
+    setGIde(ide);
+    console.log(gPos + "," + gIde);
+    handleShow();
+  };
 
   const deleteItem = () => {
-    console.log(gPos + "," + gIde)
+    console.log(gPos + "," + gIde);
     setInfo(info.filter((o, i) => gPos !== i));
     const cityRef = db.collection("test").doc(gIde).delete();
-    handleClose()
+    handleClose();
   };
 
   return (
@@ -181,7 +178,7 @@ export default function dashboard() {
         <div className="w-100" style={{ maxWidth: "600px" }}>
           <Card className="align-items-center justify-content-center">
             <Card.Body>
-              <h2 className="text-center mb-4">Main Menu</h2>
+              <h2 className="text-center mb-4">Patients</h2>
 
               <Table striped bordered hover size="sm">
                 <thead>
@@ -198,33 +195,66 @@ export default function dashboard() {
                 <tbody>
                   {/* {listItems()} */}
                   {info.map((item, index) => (
-                    
-                      <tr
-                        class="clickable-row"
-                        key={index}
-                        // onClick={() => rowSelect(ids[index])}
+                    <tr
+                      class="clickable-row"
+                      key={index}
+                      // onClick={() => rowSelect(ids[index])}
+                    >
+                      <td
+                        style={{ textAlign: "center", cursor: "default" }}
+                        onClick={() => rowSelect(ids[index])}
                       >
-                        
-                        <td style={{textAlign: "center", cursor: 'default'}} onClick={() => rowSelect(ids[index])}>{item.first}</td>
-                        
-                        <td style={{textAlign: "center", cursor: 'default'}} onClick={() => rowSelect(ids[index])}> {item.last} </td>
-                        <td style={{textAlign: "center", cursor: 'default'}} onClick={() => rowSelect(ids[index])}>  {item.street} </td>
-                        <td style={{textAlign: "center", cursor: 'default'}} onClick={() => rowSelect(ids[index])}> {item.city} </td>
-                        <td style={{textAlign: "center", cursor: 'default'}} onClick={() => rowSelect(ids[index])}> {item.state} </td>
-                        <td style={{textAlign: "center", cursor: 'default'}} onClick={() => rowSelect(ids[index])}> {item.zipcode} </td>
-                      
-                        <td style={{textAlign: "center"}}>
+                        {item.first}
+                      </td>
+
+                      <td
+                        style={{ textAlign: "center", cursor: "default" }}
+                        onClick={() => rowSelect(ids[index])}
+                      >
+                        {" "}
+                        {item.last}{" "}
+                      </td>
+                      <td
+                        style={{ textAlign: "center", cursor: "default" }}
+                        onClick={() => rowSelect(ids[index])}
+                      >
+                        {" "}
+                        {item.street}{" "}
+                      </td>
+                      <td
+                        style={{ textAlign: "center", cursor: "default" }}
+                        onClick={() => rowSelect(ids[index])}
+                      >
+                        {" "}
+                        {item.city}{" "}
+                      </td>
+                      <td
+                        style={{ textAlign: "center", cursor: "default" }}
+                        onClick={() => rowSelect(ids[index])}
+                      >
+                        {" "}
+                        {item.state}{" "}
+                      </td>
+                      <td
+                        style={{ textAlign: "center", cursor: "default" }}
+                        onClick={() => rowSelect(ids[index])}
+                      >
+                        {" "}
+                        {item.zipcode}{" "}
+                      </td>
+
+                      <td style={{ textAlign: "center" }}>
                         <Button
-                          onClick={() => checkDelete(index, ids[index],item.first)}
+                          onClick={() =>
+                            checkDelete(index, ids[index], item.first)
+                          }
                           id={ids[index]}
                           variant="danger"
                         >
                           X
                         </Button>
                       </td>
-                      </tr>
-                      
-                    
+                    </tr>
                   ))}
 
                   {/* <a>{info["TestField"]}</a> */}

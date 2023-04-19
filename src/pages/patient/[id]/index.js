@@ -101,27 +101,7 @@ const article = () => {
 
   async function handleSubmit(event) {
     // const router = useRouter()
-    router.push(idSelect + "/indexSubmit")
-    // console.log("enter handle submit");
-    // console.log(items);
-    // var check = false;
-
-    // Object.values(items).map((element) => {
-    //   console.log(element);
-    //   if (element == "") {
-    //     console.log(element + " error!");
-    //     check = true;
-    //   }
-    // });
-
-    // if (check) {
-    //   console.log("entered");
-    //   handleShow();
-    // } else {
-    //   console.log("try submit");
-    //   console.log(items);
-    //   toSend();
-    // }
+    router.push(idSelect + "/indexSubmit");
 
     event.preventDefault();
   }
@@ -204,9 +184,8 @@ const article = () => {
 
   async function fetchData() {
     selectedID = window.location.pathname.substring(
-      window.location.pathname.lastIndexOf("/") + 1  
+      window.location.pathname.lastIndexOf("/") + 1
     );
-    
 
     setIDSelect(selectedID);
 
@@ -232,9 +211,9 @@ const article = () => {
     setItems(data);
   }
 
-  function signOutFunc(){
-    signOut()
-    router.reload()
+  function signOutFunc() {
+    signOut();
+    router.reload();
   }
 
   return (
@@ -374,7 +353,7 @@ const article = () => {
                 <Button
                   className="m-3"
                   variant="secondary"
-                  href={"../register"}
+                  href={idSelect + "/indexMessage"}
                 >
                   Send a Message
                 </Button>

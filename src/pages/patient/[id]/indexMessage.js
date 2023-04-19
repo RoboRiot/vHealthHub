@@ -88,7 +88,7 @@ const index = () => {
     let newID = 0;
 
     const cityRef = await db
-      .collection("requestChange")
+      .collection("requestMessage")
       .get()
       .then((querySnapshot) => {
         // Loop through the data and store
@@ -106,7 +106,7 @@ const index = () => {
 
     if (findElement) {
       await db
-        .collection("requestChange")
+        .collection("requestMessage")
         .doc(newID)
         .update(items)
         .then(() => {
@@ -114,7 +114,7 @@ const index = () => {
         });
     } else {
       await db
-        .collection("requestChange")
+        .collection("requestMessage")
         .add(items)
         .then(() => {
           console.log("Items added!");
@@ -146,6 +146,7 @@ const index = () => {
       toSend();
     }
 
+    router.push("../" + idSelect);
     event.preventDefault();
   }
 
@@ -251,7 +252,7 @@ const index = () => {
     console.log(data.prescription);
 
     setIDSelect(selectedID);
-    setItems(data);
+    // setItems(data);
   }
 
   //------------------------------------------
@@ -346,184 +347,12 @@ const index = () => {
         <div className="w-100" style={{ maxWidth: "400px" }}>
           <Card className="align-items-center justify-content-center">
             <Card.Body>
-              {/* <h2 className="text-center mb-4">Patient</h2> */}
+              <h2 className="text-center mb-4">Message to Doctor</h2>
 
               <Form onSubmit={handleSubmit}>
-                <Row className="mb-3">
-                  <Form.Group as={Col} controlId="name">
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={items["first"]}
-                      onChange={firstChangeHandler}
-                      disabled={mod}
-                    />
-                  </Form.Group>
-
-                  <Form.Group as={Col} controlId="name">
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={items["last"]}
-                      onChange={lastChangeHandler}
-                      disabled={mod}
-                    />
-                  </Form.Group>
-                </Row>
-
-                <Row className="mb-3">
-                  <Form.Group as={Col} controlId="name">
-                    <Form.Label>Street</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={items["street"]}
-                      onChange={streetChangeHandler}
-                      disabled={mod}
-                    />
-                  </Form.Group>
-
-                  <Form.Group as={Col} controlId="name">
-                    <Form.Label>City</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={items["city"]}
-                      onChange={cityChangeHandler}
-                      disabled={mod}
-                    />
-                  </Form.Group>
-                </Row>
-
-                <Row className="mb-3">
-                  <Form.Group as={Col} controlId="name">
-                    <Form.Label>State</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={items["state"]}
-                      onChange={stateChangeHandler}
-                      disabled={mod}
-                    />
-                  </Form.Group>
-
-                  <Form.Group as={Col} controlId="name">
-                    <Form.Label>Zipcode</Form.Label>
-                    <Form.Control
-                      type="number"
-                      value={items["zipcode"]}
-                      onChange={zipcodeChangeHandler}
-                      disabled={mod}
-                    />
-                  </Form.Group>
-                </Row>
-
-                <Row className="mb-1">
-                  <Form.Group as={Col} controlId="prescription">
-                    <Form.Label>Prescriptions</Form.Label>
-                    <Form.Select
-                      aria-label="Default select example"
-                      onChange={preSelectHandler}
-                    >
-                      {items["prescription"] != undefined &&
-                        items["prescription"].map((element, index) => (
-                          <option value={index}>{element}</option>
-                        ))}
-                    </Form.Select>
-                  </Form.Group>
-
-                  <Form.Group
-                    className="mb-1"
-                    as={Col}
-                    controlId="prescriptionsAdd"
-                  >
-                    <Button
-                      style={{ marginTop: "2.15vw" }}
-                      variant="success"
-                      onClick={() => addItemPopUp("prescription")}
-                      hidden={mod}
-                    >
-                      +
-                    </Button>
-                    <Button
-                      style={{ marginLeft: "1vw", marginTop: "2.15vw" }}
-                      variant="danger"
-                      onClick={() => removeItem("prescription")}
-                      hidden={mod}
-                    >
-                      --
-                    </Button>
-                  </Form.Group>
-                </Row>
-
-                <Row className="mb-3">
-                  <Form.Group as={Col} className="w-10" controlId="allergies">
-                    <Form.Label>Allergies</Form.Label>
-                    <Form.Select
-                      aria-label="Default select example"
-                      onChange={preSelectHandler}
-                    >
-                      {items["allergies"] != undefined &&
-                        items["allergies"].map((element, index) => (
-                          <option value={index}>{element}</option>
-                        ))}
-                    </Form.Select>
-                  </Form.Group>
-
-                  <Form.Group as={Col} controlId="allergiesAdd">
-                    <Button
-                      style={{ marginTop: "2.15vw" }}
-                      variant="success"
-                      onClick={() => addItemPopUp("allergies")}
-                      hidden={mod}
-                    >
-                      +
-                    </Button>
-                    <Button
-                      style={{ marginLeft: "1vw", marginTop: "2.15vw" }}
-                      variant="danger"
-                      onClick={() => removeItem("allergies")}
-                      hidden={mod}
-                    >
-                      --
-                    </Button>
-                  </Form.Group>
-                </Row>
-
-                <Row className="mb-1">
-                  <Form.Group as={Col} className="w-10" controlId="symptoms">
-                    <Form.Label>Symptoms</Form.Label>
-                    <Form.Select
-                      aria-label="Default select example"
-                      onChange={preSelectHandler}
-                    >
-                      {items["symptoms"] != undefined &&
-                        items["symptoms"].map((element, index) => (
-                          <option value={index}>{element}</option>
-                        ))}
-                    </Form.Select>
-                  </Form.Group>
-
-                  <Form.Group className="mb-1" as={Col} controlId="symptomsAdd">
-                    <Button
-                      style={{ marginTop: "2.15vw" }}
-                      variant="success"
-                      onClick={() => addItemPopUp("symptoms")}
-                      hidden={mod}
-                    >
-                      +
-                    </Button>
-                    <Button
-                      style={{ marginLeft: "1vw", marginTop: "2.15vw" }}
-                      variant="danger"
-                      onClick={() => removeItem("symptoms")}
-                      hidden={mod}
-                    >
-                      --
-                    </Button>
-                  </Form.Group>
-                </Row>
-
                 <Form.Label></Form.Label>
                 <Form.Group className="mb-3" controlId="desc">
-                  <Form.Label>Notes</Form.Label>
+                  <Form.Label>Message</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={3}
